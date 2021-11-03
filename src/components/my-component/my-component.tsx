@@ -1,5 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { Component, Host, State, h } from '@stencil/core';
 
 @Component({
   tag: 'my-component',
@@ -7,26 +6,26 @@ import { format } from '../../utils/utils';
   shadow: true,
 })
 export class MyComponent {
-  /**
-   * The first name
-   */
-  @Prop() first: string;
+  @State() myCounterState: number = 0;
 
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
+  inc() {
+    console.log('inc');
+    this.myCounterState++;
+  }
 
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
+  dec() {
+    console.log('dec');
+    this.myCounterState--;
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    console.log('render');
+    return (
+      <Host>
+        <button onClick={() => this.dec()}>-</button>
+        <span>state: {this.myCounterState}</span>
+        <button onClick={() => this.inc()}>+</button>
+      </Host>
+    );
   }
 }
